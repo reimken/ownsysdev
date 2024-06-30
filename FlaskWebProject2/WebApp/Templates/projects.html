@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All projects</title>
+</head>
+<body>
+    
+    <form id="searchForm" method="GET" onsubmit="setFormAction()">
+        <label for="type_id">Projekt ID:</label>
+        <input type="text" id="type_id" name="type_id" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>Projects</h1>
+    <div align="center">
+        <table width="80%" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type ID</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in listed_items %}
+                <tr>
+                    <td align="center">{{ project['id'] }}</td>
+                    <td><a href="{{ url_for('project_details', project_id=project['id']) }}">{{ project['name'] }}</a></td>
+                    <td align="center">{{ project['type_id'] }}</td>
+                    <td>{{ project['description'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function setFormAction() {
+            const typeId = document.getElementById('type_id').value;
+            document.getElementById('searchForm').action = `/projects/type_id=${typeId}`;
+        }
+    </script>
+</body>
+</html>

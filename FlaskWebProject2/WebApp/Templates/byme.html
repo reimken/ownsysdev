@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Created by Me</title>
+</head>
+<body>
+    <h1>Tasks Created by Me</h1>
+    <table width="80%" align="center" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Project ID</th>
+                <th>User ID</th>
+                <th>Deadline</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td align="center">{{ task['id'] }}</td>
+                <td>{{ task['name'] }}</td>
+                <td>{{ task['description'] }}</td>
+                <td align="center">{{ task['project_id'] }}</td>
+                <td align="center">{{ task['user_id'] }}</td>
+                <td align="center">{{ task['deadline'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

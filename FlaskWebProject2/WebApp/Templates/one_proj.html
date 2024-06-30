@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project["name"] }}</title>
+</head>
+<body>
+    <h1> <p>{{ project["description"] }} (project id:{{ project["name"] }})</p></h1>
+    <h2>Tasks</h2>
+    <div align="center">
+        <table width="80%" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Project ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task['id'] }}</td>
+                    <td>{{ task['name'] }}</td>
+                    <td>{{ task['description'] }}</td>
+                    <td>{{ task['project_id'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    <p></p>
+    <form method="GET" action="/projects/{{ project['id'] }}/new_task">
+        <button type="submit">Create New Task</button>
+    </form>
+</body>
+</html>
