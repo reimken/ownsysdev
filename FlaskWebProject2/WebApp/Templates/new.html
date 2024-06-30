@@ -7,6 +7,8 @@
 </head>
 <body>
     <h1>New Task</h1>
+    {% if session.user_role == 'manager' %}
+
     <form method="POST">
         <label for="name">Task Name:</label><br>
         <input type="text" id="name" name="name" required><br><br>
@@ -23,5 +25,8 @@
 
         <button type="submit">Add Task</button>
     </form>
+    {% else %}
+    <p>Access denied</p>
+    {% endif %}
 </body>
 </html>
