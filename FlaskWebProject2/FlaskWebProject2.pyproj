@@ -27,6 +27,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.py" />
+    <Compile Include="dbtest.py" />
     <Compile Include="WebApp\dtos.py" />
     <Compile Include="WebApp\models.py" />
     <Compile Include="WebApp\routes.py" />
