@@ -22,7 +22,7 @@
             {% for project in listed_items %}
             <tr>
                 <td align="center">{{ project['id'] }}</td>
-                <td>{{ project['name'] }}</td>
+               <td> <a href="{{ url_for('project_details', project_id=project['id']) }}">{{ project['name'] }}</a></td>
                 <td align="center">{{ project['type_id'] }}</td>
                 <td>{{ project['description'] }}</td>
             </tr>

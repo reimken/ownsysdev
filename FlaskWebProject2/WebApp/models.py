@@ -1,61 +1,55 @@
 from WebApp import db
+from datetime import datetime
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-
-Base = declarative_base()
-
-class Manager(Base):
+class Manager(db.Model):
     __tablename__ = 'managers'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    password = db.Column(db.String(255))
+    
+    '''def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    email = Column(String(255))
-    password = Column(String(255))
+    def get_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    #tasks = db.relationship('Task', backref='manager', lazy=True)'''
+
     def __repr__(self):
         return f"<Manager(id={self.id}, name='{self.name}', email='{self.email}')>"
 
-class Developer(Base):
+class Project(db.Model):
+    __tablename__ = 'projects'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    type_id = db.Column(db.Integer, nullable=False)
+
+    #tasks = db.relationship('Task', backref='project', lazy=True)
+
+    def __repr__(self):
+        return f"<Project(id={self.id}, name='{self.name}', description='{self.description}', type_id={self.type_id})>"
+
+class Task(db.Model):
+    __tablename__ = 'tasks'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('managers.id'), nullable=False)
+    deadline = db.Column(db.DateTime, nullable=True)
+
+    def __repr__(self):
+        return f"<Task(id={self.id}, name='{self.name}', description='{self.description}', project_id={self.project_id}, user_id={self.user_id}, deadline={self.deadline})>"
+    
+class Developer(db.Model):
     __tablename__ = 'developers'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    email = Column(String(255))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+
     def __repr__(self):
         return f"<Developer(id={self.id}, name='{self.name}', email='{self.email}')>"
-    
-class Project(Base):
-    __tablename__ = 'projects'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    type_id = Column(Integer, ForeignKey('project_types.id'))
-    description = Column(String(255))
-    def __repr__(self):
-        return f"<Project(id={self.id}, name='{self.name}', type_id={self.type_id}, description='{self.description}')>"
-
-class ProjectType(Base):
-    __tablename__ = 'project_types'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    def __repr__(self):
-        return f"<ProjectType(id={self.id}, name='{self.name}')>"
-    
-class Task(Base):
-    __tablename__ = 'tasks'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    description = Column(String(255))
-    project_id = Column(Integer, ForeignKey('projects.id'))
-    user_id = Column(Integer, ForeignKey('managers.id'))
-    deadline = Column(DateTime)
-    
-    project = relationship("Project", back_populates="tasks")
-    user = relationship("Manager", back_populates="tasks")
-    
-    def __repr__(self):
-        return f"<Task(id={self.id}, name='{self.name}', project_id={self.project_id}, user_id={self.user_id}, deadline='{self.deadline}')>"
-
